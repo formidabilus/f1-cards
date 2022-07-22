@@ -11,15 +11,17 @@ console.log(dataDescendentSortedByPoints);
 
 let cards = "";
 
-const addPointsButton = document.querySelector(".add-points");
+//const addPointsButton = document.querySelector(".add-points");
 
-function addPoints() {
-  console.log("addpoints");
-  if (addPointsButton) {
-    document.querySelector(".points").textContent = points + 1;
-  }
-  console.log("button pressed");
-}
+// function addPoints() {
+//   console.log("merge");
+
+//   console.log("addpoints");
+//   if (addPointsButton) {
+//     document.querySelector(".points").textContent = points + 1;
+//   }
+//   console.log("button pressed");
+// }
 
 function changeBorderColorMouseOver(currentColor) {
   // const border = document.querySelector(".border");
@@ -47,7 +49,7 @@ for (let i = 0; i < 3; i++) {
     <div class="card-header">
       <p class="rank">${i + 1}</p>
       <span class="points-and-button">
-      <button type="button" class="add-points" onClick="${addPoints}">Add PTS</button>
+      <button type="button" class="add-points" >Add PTS</button>
         <p class="points">${points}</p>
       </span>
     </div>
@@ -80,13 +82,27 @@ for (let i = 0; i < 3; i++) {
     </div>
 </article>
             `;
+
+  if (i == 2) {
+    console.log(i);
+    const buttons = document.querySelectorAll(".add-points");
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        console.log("pressed");
+        const points = btn.parentNode.children[1];
+        console.log(points);
+
+        points.textContent = +points.textContent + 1;
+      });
+    });
+  }
 }
 
 document.querySelector(".container").insertAdjacentHTML("beforeend", cards);
 
-//Aici am incercat eu mai multe metode de a schimba culoarea la border
-
-function changeBorderColorMouseOut() {
-  border.style.cssText = "border-top-color: black; border-right-color: black";
-  console.log("mouse out");
-}
+//Aici am incercat mai multe metode de a schimba culoarea la border
+// function changeBorderColorMouseOut() {
+//   border.style.cssText = "border-top-color: black; border-right-color: black";
+//   console.log("mouse out");
+// }
