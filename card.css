@@ -74,12 +74,12 @@ body {
   justify-content: flex-end;
 }
 
-.points {
+.points-text {
   font-family: "f1-wide", sans-serif;
   font-size: 18px;
 }
 
-.points::after {
+.points-text::after {
   content: "PTS";
   padding: 0 2px;
   color: white;
@@ -96,7 +96,7 @@ body {
   color: black;
   border: 1px solid black;
   transition-duration: 0.2s;
-  z-index: 99;
+  /* z-index: 99; */
 }
 
 .add-points:hover {
