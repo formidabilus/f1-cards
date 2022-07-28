@@ -9,14 +9,14 @@ const dataDescendentSortedByPoints = mockData.sort(
 
 console.log(dataDescendentSortedByPoints);
 
-let cards = [];
+let cards = "";
 
 dataDescendentSortedByPoints.forEach(
   (
     { firstName, lastName, number, team, points, image, country, hex },
     index
   ) => {
-    cards.push(`
+    cards += `
     <article class="card" id="card-number-${index}">
   <div
     class="border"
@@ -50,7 +50,7 @@ dataDescendentSortedByPoints.forEach(
     </div>
   </div>
 </article>
-  `);
+  `;
   }
 );
 
@@ -72,21 +72,19 @@ function addPoints(index) {
 function changeBorderColor(index) {
   const currentCard = document.getElementById(`card-number-${index}`);
   currentCard.addEventListener("mouseenter", (e) => {
-    console.log(`this is card number ${index}`);
     const border = currentCard.getElementsByClassName("border").item(0);
     border.style.borderTopColor = dataDescendentSortedByPoints[index].hex;
     border.style.borderRightColor = dataDescendentSortedByPoints[index].hex;
   });
 
   currentCard.addEventListener("mouseleave", (e) => {
-    console.log(`this is card number ${index}`);
-    var border = currentCard.getElementsByClassName("border").item(0);
+    const border = currentCard.getElementsByClassName("border").item(0);
     border.style.borderTopColor = "black";
     border.style.borderRightColor = "black";
   });
 }
 
-cards.forEach((card, index) => {
+Array.from(cards).forEach((card, index) => {
   addPoints(index);
   changeBorderColor(index);
 });
