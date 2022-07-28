@@ -9,48 +9,23 @@ const dataDescendentSortedByPoints = mockData.sort(
 
 console.log(dataDescendentSortedByPoints);
 
-function changeBorderColorMouseOver(currentColor) {
-  // const border = document.querySelector(".border");
-  // border.addEventListener("mouseenter", () => {
-  //   border.style.cssText = `border-top-color: ${currentColor}; border-right-color: ${currentColor}`;
-  // });
-
-  console.log("mouse over");
-}
-
-function mouseOver(hex) {
-  document.querySelector(
-    ".border"
-  ).style.border.style.cssText = `border-top: solid 2px  ${hex};
-  border-right: solid 2px  ${hex}`;
-}
-function mouseOut() {
-  document.querySelector(".border").style.borderRightColor = "black";
-}
-// onMouseOver="${() => mouseOver(hex)}"
-// onMouseOut="${() => mouseOut()}"
-
-// TODO: change border color
-// for (let i = 0; i < dataDescendentSortedByPoints.length; i++)
-
-let cards = "";
+let cards = [];
 
 dataDescendentSortedByPoints.forEach(
   (
     { firstName, lastName, number, team, points, image, country, hex },
     index
   ) => {
-    cards += `
-
-    <article class="card">
+    cards.push(`
+    <article class="card" id="card-number-${index}">
   <div
     class="border"
   >
     <div class="card-header">
       <p class="rank">${index + 1}</p>
       <span class="points-and-button">
-        <button type="button" class="add-points">Add PTS</button>
-        <p class="points-text">${points}</p>
+        <button type="button" class="add-points" id="add-button-${index}">Add PTS</button>
+        <p class="points-text" id="points-text-${index}">${points}</p>
       </span>
     </div>
     <hr />
@@ -70,44 +45,48 @@ dataDescendentSortedByPoints.forEach(
       <div class="photo-container">
         <div class="photo-background"></div>
         <img src="${image}" alt="pilot's photo" class="photo" />
-
         <p class="number">${number}</p>
       </div>
     </div>
   </div>
 </article>
-
-  `;
-
-    document.querySelector(".container").addEventListener("mouseenter", (e) => {
-      if (e.target.classList.contains("border")) {
-        console.log("border hover");
-        const border = document.querySelector(".border");
-        border.style.borderTopColor = hex;
-      }
-    });
+  `);
   }
-  // const pointsText = document.getElementsByClassName("points");
-  // const button = document.querySelector("add-points");
-  // let pointsNr = parseInt(pointsText.innerText);
-  // button[index].addEventListener("click", () => {
-  //   pointsNr += 1;
-  //   pointsText.innerText = pointsNr;
-  // });
 );
 
 const container = document.querySelector(".container");
 container.insertAdjacentHTML("beforeend", cards);
 
-container.addEventListener("click", (e) => {
-  if (e.target.classList.contains("points-text")) {
-    console.log("pressed add points");
-    e.target.textContent += 1;
-  }
-});
+function addPoints(index) {
+  const addPointsButton = document.getElementById(`add-button-${index}`);
 
-//Aici am incercat mai multe metode de a schimba culoarea la border
-// function changeBorderColorMouseOut() {
-//   border.style.cssText = "border-top-color: black; border-right-color: black";
-//   console.log("mouse out");
-// }
+  addPointsButton.addEventListener("click", (e) => {
+    console.log("pressed add points");
+    const pointsText = document.getElementById(`points-text-${index}`);
+    const value = pointsText.innerHTML;
+    const newValue = parseInt(value) + 1;
+    pointsText.innerHTML = newValue;
+  });
+}
+
+function changeBorderColor(index) {
+  const currentCard = document.getElementById(`card-number-${index}`);
+  currentCard.addEventListener("mouseenter", (e) => {
+    console.log(`this is card number ${index}`);
+    const border = currentCard.getElementsByClassName("border").item(0);
+    border.style.borderTopColor = dataDescendentSortedByPoints[index].hex;
+    border.style.borderRightColor = dataDescendentSortedByPoints[index].hex;
+  });
+
+  currentCard.addEventListener("mouseleave", (e) => {
+    console.log(`this is card number ${index}`);
+    var border = currentCard.getElementsByClassName("border").item(0);
+    border.style.borderTopColor = "black";
+    border.style.borderRightColor = "black";
+  });
+}
+
+cards.forEach((card, index) => {
+  addPoints(index);
+  changeBorderColor(index);
+});
